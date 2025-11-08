@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfektes Dinner - Verlosung</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .back-link a {
+            color: #9333ea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .input-group {
+            margin-bottom: 32px;
+        }
+        
+        .input-group h2 {
+            font-size: 1.25rem;
+            color: #374151;
+            margin-bottom: 16px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            transition: border-color 0.2s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+        }
+        
+        .button {
+            background: #9333ea;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .button:hover {
+            background: #7e22ce;
+        }
+        
+        .button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .button-center {
+            text-align: center;
+        }
+        
+        .link-box {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .link-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #f9fafb;
+            font-size: 0.875rem;
+        }
+        
+        .copy-button {
+            padding: 12px 16px;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .copy-button:hover {
+            background: #7e22ce;
+        }
+        
+        .info-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: #f3e8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 48px;
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%);
+            border: 2px solid #d8b4fe;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin: 32px 0;
+        }
+        
+        .result-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7e22ce;
+        }
+        
+        .status-text {
+            color: #6b7280;
+            margin-top: 16px;
+            font-size: 0.875rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 32px 0;
+        }
+        
+        .empty-state p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Setup Mode -->
+        <div id="setupMode">
+            <div class="card">
+                <h1>Perfektes Dinner</h1>
+                <p class="subtitle">Gib alle Gänge ein und erstelle dann einen Link zum Teilen</p>
+                
+                <div class="input-group">
+                    <h2>Gänge</h2>
+                    <input type="text" class="input-field" id="task0" value="Vorspeise" placeholder="Gang 1">
+                    <input type="text" class="input-field" id="task1" value="Hauptgang" placeholder="Gang 2">
+                    <input type="text" class="input-field" id="task2" value="Dessert" placeholder="Gang 3">
+                    <input type="text" class="input-field" id="task3" value="Gang 4" placeholder="Gang 4">
+                    <input type="text" class="input-field" id="task4" value="Gang 5" placeholder="Gang 5">
+                    <input type="text" class="input-field" id="task5" value="Gang 6" placeholder="Gang 6">
+                </div>
+                
+                <div class="button-center">
+                    <button class="button" onclick="createShareLink()">
+                        🔀 Link erstellen
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Draw Mode -->
+        <div id="drawMode" class="hidden">
+            <div class="back-link">
+                <a href="#" onclick="resetToSetup(); return false;">← Zurück zur Einrichtung (Gänge ändern)</a>
+            </div>
+            
+            <div id="linkBox" class="card hidden">
+                <h2>Link zum Teilen</h2>
+                <div class="link-box">
+                    <input type="text" class="link-input" id="shareLink" readonly>
+                    <button class="copy-button" onclick="copyLink()">
+                        <span id="copyText">Kopieren</span>
+                    </button>
+                </div>
+                <p class="info-text">Teile diesen Link mit allen Teilnehmern</p>
+            </div>
+            
+            <!-- Draw Card -->
+            <div id="drawCard" class="card">
+                <div class="text-center">
+                    <div class="icon-box">🎁</div>
+                    <h1>Ziehe deinen Gang</h1>
+                    <p class="subtitle">Noch <span id="remainingCount">0</span> Gang/Gänge verfügbar</p>
+                </div>
+                
+                <div class="input-group">
+                    <label for="participantName" style="display: block; font-weight: 500; margin-bottom: 8px; color: #374151;">Dein Name</label>
+                    <input type="text" class="input-field" id="participantName" placeholder="Name eingeben...">
+                </div>
+                
+                <button class="button" onclick="drawTask()" id="drawButton">
+                    🎁 Gang ziehen
+                </button>
+            </div>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="card hidden">
+                <div class="empty-state">
+                    <p>Alle Gänge wurden bereits vergeben!</p>
+                    <button class="button" onclick="resetToSetup()">
+                        Neue Verlosung starten
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Result Card -->
+            <div id="resultCard" class="card hidden">
+                <div class="text-center">
+                    <div class="icon-box">✓</div>
+                    <h1>Glückwunsch, <span id="resultName"></span>!</h1>
+                    <p class="subtitle">Du kochst folgenden Gang:</p>
+                    
+                    <div class="result-box">
+                        <div class="result-text" id="resultTask"></div>
+                    </div>
+                    
+                    <p class="status-text">Noch <span id="resultRemaining">0</span> Gang/Gänge verfügbar</p>
+                    
+                    <button class="button" onclick="backToDrawing()">
+                        Zurück zur Verlosung
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let availableTasks = [];
+        let sessionId = '';
+        
+        // Initialize on page load
+        window.onload = function() {
+            const hash = window.location.hash.slice(1);
+            if (hash) {
+                try {
+                    const decoded = JSON.parse(atob(hash));
+                    availableTasks = decoded.tasks || [];
+                    sessionId = decoded.sessionId || '';
+                    showDrawMode();
+                } catch (e) {
+                    console.error('Invalid URL hash');
+                    showSetupMode();
+                }
+            } else {
+                showSetupMode();
+            }
+        };
+        
+        function showSetupMode() {
+            document.getElementById('setupMode').classList.remove('hidden');
+            document.getElementById('drawMode').classList.add('hidden');
+        }
+        
+        function showDrawMode() {
+            document.getElementById('setupMode').classList.add('hidden');
+            document.getElementById('drawMode').classList.remove('hidden');
+            updateDrawInterface();
+        }
+        
+        function updateDrawInterface() {
+            const remainingCount = availableTasks.length;
+            document.getElementById('remainingCount').textContent = remainingCount;
+            
+            if (remainingCount === 0) {
+                document.getElementById('drawCard').classList.add('hidden');
+                document.getElementById('emptyState').classList.remove('hidden');
+            } else {
+                document.getElementById('drawCard').classList.remove('hidden');
+                document.getElementById('emptyState').classList.add('hidden');
+            }
+            
+            document.getElementById('resultCard').classList.add('hidden');
+        }
+        
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+        
+        function generateSessionId() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+        
+        function createShareLink() {
+            const tasks = [];
+            for (let i = 0; i < 6; i++) {
+                const value = document.getElementById('task' + i).value.trim();
+                if (value) tasks.push(value);
+            }
+            
+            if (tasks.length === 0) {
+                alert('Bitte gib mindestens einen Gang ein!');
+                return;
+            }
+            
+            availableTasks = shuffleArray(tasks);
+            sessionId = generateSessionId();
+            
+            const data = {
+                tasks: availableTasks,
+                sessionId: sessionId
+            };
+            const encoded = btoa(JSON.stringify(data));
+            const link = window.location.href.split('#')[0] + '#' + encoded;
+            
+            window.location.hash = encoded;
+            document.getElementById('shareLink').value = shortenLink(link);
+            document.getElementById('shareLink').setAttribute('data-full-link', link);
+            document.getElementById('linkBox').classList.remove('hidden');
+            
+            showDrawMode();
+        }
+        
+        function shortenLink(link) {
+            if (link.length <= 50) return link;
+            return link.substring(0, 30) + '...' + link.substring(link.length - 15);
+        }
+        
+        function copyLink() {
+            const linkInput = document.getElementById('shareLink');
+            const fullLink = linkInput.getAttribute('data-full-link');
+            navigator.clipboard.writeText(fullLink);
+            
+            const copyText = document.getElementById('copyText');
+            copyText.textContent = 'Kopiert!';
+            setTimeout(() => {
+                copyText.textContent = 'Kopieren';
+            }, 2000);
+        }
+        
+        function drawTask() {
+            const name = document.getElementById('participantName').value.trim();
+            if (!name) {
+                alert('Bitte gib deinen Namen ein!');
+                return;
+            }
+            
+            if (availableTasks.length === 0) return;
+            
+            const task = availableTasks[0];
+            availableTasks = availableTasks.slice(1);
+            
+            // Update URL
+            const data = {
+                tasks: availableTasks,
+                sessionId: sessionId
+            };
+            const encoded = btoa(JSON.stringify(data));
+            window.location.hash = encoded;
+            
+            // Update share link if visible
+            const linkBox = document.getElementById('linkBox');
+            if (!linkBox.classList.contains('hidden')) {
+                const link = window.location.href.split('#')[0] + '#' + encoded;
+                document.getElementById('shareLink').value = shortenLink(link);
+                document.getElementById('shareLink').setAttribute('data-full-link', link);
+            }
+            
+            // Show result
+            document.getElementById('resultName').textContent = name;
+            document.getElementById('resultTask').textContent = task;
+            document.getElementById('resultRemaining').textContent = availableTasks.length;
+            
+            document.getElementById('drawCard').classList.add('hidden');
+            document.getElementById('resultCard').classList.remove('hidden');
+        }
+        
+        function backToDrawing() {
+            document.getElementById('participantName').value = '';
+            updateDrawInterface();
+        }
+        
+        function resetToSetup() {
+            window.location.hash = '';
+            availableTasks = [];
+            sessionId = '';
+            showSetupMode();
+        }
+    </script>
+</body>
+</html>
